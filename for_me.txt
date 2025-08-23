@@ -1,0 +1,18 @@
+# Start working
+cd ~/projects/wpsg-automation
+source venv/bin/activate
+
+# Launch app
+
+python eel_app.py
+
+
+# Make changes, then:
+git add .
+git commit -m "Add new feature: XYZ"
+git push
+
+# Kill the script
+
+Ctlr + C
+
