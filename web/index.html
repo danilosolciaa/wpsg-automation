@@ -50,7 +50,7 @@
             position: relative;
             display: flex;
             align-items: center;
-            justify-content: center; /* Center the content horizontally */
+            justify-content: center;
         }
 
         /* Logo - Real image now */
@@ -58,8 +58,8 @@
             position: absolute;
             width: 150px;
             height: auto;
-            top: 20px;
-            right: 25px;
+            top: 16px;
+            right: 14px;
             object-fit: contain;
         }
 
@@ -69,15 +69,14 @@
             flex-direction: column;
             align-items: flex-start;
             justify-content: center;
-            /* Calculate true center: (850px total width / 2) - 210px sidebar = 215px from left edge of main content */
-            margin-left: -100px; /* This centers content in the ENTIRE 850px application width */
+            margin-left: -100px;
         }
 
         /* Header Group Container */
         .header-group {
             display: flex;
             flex-direction: column;
-            align-items: flex-start; /* Align to start for the offset effect */
+            align-items: flex-start;
             margin-bottom: 100px;
             margin-top: -50px;
             position: relative;
@@ -91,10 +90,10 @@
             font-size: 48px;
             letter-spacing: -1px;
             line-height: normal;
-            margin-bottom: -12px; /* Reduced space between header and subheader */
+            margin-bottom: -12px;
         }
 
-        /* Subtitle - Automation Tool (aligned with P in WPSG) */
+        /* Subtitle - Automation Tool */
         .subtitle {
             font-family: "Montserrat", Helvetica;
             font-weight: 700;
@@ -102,19 +101,18 @@
             font-size: 22px;
             letter-spacing: 0;
             line-height: normal;
-            margin-left: 55px; /* Align with the 'P' in WPSG - adjust this value if needed */
-            /* Fallback positioning comment: If alignment needs adjustment, modify this margin-left value */
+            margin-left: 55px;
         }
 
-        /* Button Group Container - Centered with WPSG */
+        /* Button Group Container */
         .button-group {
             display: flex;
             flex-direction: column;
-            align-items: center; /* Center the button and text */
-            margin-top: 80px; /* Space from headers to button */
+            align-items: center;
+            margin-top: 100px;
         }
 
-        /* Scan Button - Centered with WPSG header */
+        /* Scan Button */
         .scan-button {
             width: 160px;
             height: 45px;
@@ -127,14 +125,20 @@
             font-size: 16px;
             cursor: pointer;
             transition: background-color 0.2s;
-            margin-bottom: 7px; /* Space between button and last updated text */
+            margin-bottom: 7px;
         }
 
         .scan-button:hover {
             background-color: #c0c0c0;
         }
 
-        /* Last Updated - Centered with button */
+        .scan-button:disabled {
+            background-color: #e8e8e8;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        /* Last Updated */
         .last-updated {
             font-family: "Source Sans Pro", Helvetica;
             font-weight: 400;
@@ -264,7 +268,7 @@
         .datasets-section {
             position: absolute;
             top: 42%;
-            right: 25px;
+            right: 14px;
             display: flex;
             flex-direction: column;
             align-items: flex-end;
@@ -299,8 +303,8 @@
         /* Footer */
         .footer {
             position: absolute;
-            bottom: 20px;
-            right: 25px;
+            bottom: 5px;
+            right: 14px;
             font-family: "Source Sans Pro", Helvetica;
             font-weight: 400;
             color: #666;
@@ -308,6 +312,17 @@
             text-align: right;
             letter-spacing: 0;
             line-height: normal;
+        }
+
+        .footer-1 {
+            margin-bottom: 10px;
+        }
+
+        .footer-2 {
+        
+            margin-top: 25px;
+
+
         }
 
         .footer a {
@@ -336,6 +351,21 @@
         .committee-container::-webkit-scrollbar-thumb:hover {
             background: #a8a8a8;
         }
+
+        /* Error/Loading states */
+        .error {
+            color: #dc3545;
+            font-size: 12px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .loading {
+            color: #666;
+            font-size: 12px;
+            padding: 10px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -350,7 +380,7 @@
             </div>
             
             <div class="committee-container" id="committeeList">
-                <!-- Populated by JavaScript -->
+                <div class="loading">Loading committees...</div>
             </div>
             
             <button class="add-button" id="addCommittee" title="Add Committee">+</button>
@@ -358,7 +388,7 @@
         
         <!-- Main Content -->
         <div class="main-content">
-            <!-- Real Logo -->
+            <!-- Logo -->
             <img src="./img/NVC-Packaging-Centre-1-scaled-1616664239.png" alt="NVC Packaging Centre" class="nvc-logo" />
             
             <!-- Content with better grouping -->
@@ -372,7 +402,7 @@
                 <!-- Button Group -->
                 <div class="button-group">
                     <button class="scan-button" id="scanUpdates">Scan Updates</button>
-                    <div class="last-updated">Last updated: <span id="lastUpdatedDate">23 August 2025</span></div>
+                    <div class="last-updated">Last Run: <span id="lastUpdatedDate">Loading...</span></div>
                 </div>
             </div>
             
@@ -385,202 +415,15 @@
             </div>
             
             <!-- Footer -->
-            <div class="footer">
+            <div class="footer footer-1">
                 For support, contact: <a href="mailto:automate.wpsg@gmail.com">automate.wpsg@gmail.com</a>
             </div>
-        </div>
+            <div class="footer footer-2">
+            <a href="https://github.com/danilosolciaa/wpsg-automation">Github Repository</a>
+            </div>
     </div>
 
-    <script>
-        // Committee data arrays
-        const cenCommittees = [
-            'CEN/CLC/JTC 3', 'CEN/CLC/JTC 10', 'CEN/TC 102', 'CEN/TC 132', 'CEN/TC 145', 
-            'CEN/TC 146', 'CEN/TC 172/WG2', 'CEN/TC 172/WG3', 'CEN/TC 172', 'CEN 175/WG 34',
-            'CEN/TC 193/WG3', 'CEN/TC 193', 'CEN/TC 194', 'CEN/TC 198', 'CEN/TC 225',
-            'CEN/TC 249/WG 11', 'CEN/TC 249/WG 24', 'CEN/TC 249/WG 9', 'CEN/TC 249',
-            'CEN/TC 261/SC 4/WG 2', 'CEN/TC 261/SC4/WG3', 'CEN/TC 261/SC4/WG6', 'CEN/TC 261/SC4/WG7',
-            'CEN/TC 261/SC4/WG8', 'CEN/TC 261/SC4', 'CEN/TC 261/SC5/WG14', 'CEN/TC 261/SC5/WG16',
-            'CEN/TC 261/SC5/WG21', 'CEN/TC 261/SC5/WG25', 'CEN/TC 261/SC5/WG26', 'CEN/TC 261/SC5/WG27',
-            'CEN/TC 261/SC5/WG34', 'CEN/TC 261/SC5', 'CEN/TC 261/WG1', 'CEN/TC 261',
-            'CEN/TC 411', 'CEN/TC 413', 'CEN/TC 459/SC9', 'CEN/TC 473', 'CEN/TC 52',
-            'CEN/WS 086', 'CEN/WS 096', 'CEN/WS COVR', 'CEN/WS CircThread'
-        ];
-        
-        const isoCommittees = [
-            'ISO TMBG', 'ISO/CASCO', 'ISO/COPOLCO', 'ISO/IEC JTC 1/SC 31', 'ISO/TC 122/SC 3',
-            'ISO/TC 122/SC 4', 'ISO/TC 122', 'ISO/TC 130', 'ISO/TC 159/SC 4', 'ISO/TC 166',
-            'ISO/TC 17/SC 9', 'ISO/TC 198', 'ISO/TC 207/SC 3', 'ISO/TC 210', 'ISO/TC 215',
-            'ISO/TC 217', 'ISO/TC 229', 'ISO/TC 287', 'ISO/TC 299', 'ISO/TC 313',
-            'ISO/TC314', 'ISO/TC 323', 'ISO/TC 34/SC 12', 'ISO/TC 34/SC 17', 'ISO/TC 42',
-            'ISO/TC 51', 'ISO TC/52', 'ISO/TC 6/SC 2', 'ISO/TC 6', 'ISO/TC 61/SC 11',
-            'ISO/TC 61/SC 14', 'ISO/TC 61/SC 9', 'ISO/TC 63', 'ISO/TC 76', 'ISO/TC 84', 'ISO/TC 87'
-        ];
-        
-        let currentCommittees = cenCommittees;
-        let currentFilter = 'CEN';
-        
-        // DOM Elements
-        const committeeList = document.getElementById('committeeList');
-        const addButton = document.getElementById('addCommittee');
-        const scanButton = document.getElementById('scanUpdates');
-        const lastUpdatedElement = document.getElementById('lastUpdatedDate');
-        const cenBtn = document.getElementById('cenBtn');
-        const isoBtn = document.getElementById('isoBtn');
-        
-        // Edit icon SVG
-        const editIconSvg = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-            <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-        </svg>`;
-        
-        // Filter functionality
-        function switchFilter(filter) {
-            currentFilter = filter;
-            if (filter === 'CEN') {
-                currentCommittees = cenCommittees;
-                cenBtn.classList.add('active');
-                isoBtn.classList.remove('active');
-            } else {
-                currentCommittees = isoCommittees;
-                isoBtn.classList.add('active');
-                cenBtn.classList.remove('active');
-            }
-            renderCommittees();
-        }
-        
-        // Render committee list
-        function renderCommittees() {
-            committeeList.innerHTML = '';
-            
-            currentCommittees.forEach((committee, index) => {
-                const item = document.createElement('div');
-                item.className = 'committee-item';
-                item.innerHTML = `
-                    <span class="committee-name" data-index="${index}">${committee}</span>
-                    <div class="edit-icon" data-index="${index}">${editIconSvg}</div>
-                `;
-                committeeList.appendChild(item);
-            });
-        }
-        
-        // Handle inline editing
-        function enableEditing(element, index) {
-            const currentText = element.textContent;
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.className = 'committee-input';
-            input.value = currentText;
-            
-            element.replaceWith(input);
-            input.focus();
-            input.select();
-            
-            const saveEdit = () => {
-                const newValue = input.value.trim();
-                if (newValue && newValue !== currentText) {
-                    currentCommittees[index] = newValue;
-                }
-                renderCommittees();
-            };
-            
-            input.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') saveEdit();
-            });
-            
-            input.addEventListener('blur', saveEdit);
-        }
-        
-        // Event listeners
-        cenBtn.addEventListener('click', () => switchFilter('CEN'));
-        isoBtn.addEventListener('click', () => switchFilter('ISO'));
-        
-        committeeList.addEventListener('click', (e) => {
-            const target = e.target;
-            
-            if (target.closest('.edit-icon')) {
-                const index = parseInt(target.closest('.edit-icon').dataset.index);
-                const nameElement = committeeList.querySelector(`[data-index="${index}"].committee-name`);
-                enableEditing(nameElement, index);
-            }
-            
-            if (target.classList.contains('committee-name')) {
-                target.addEventListener('dblclick', () => {
-                    const index = parseInt(target.dataset.index);
-                    enableEditing(target, index);
-                });
-            }
-        });
-        
-        addButton.addEventListener('click', () => {
-            const newCommittee = `New ${currentFilter} Committee`;
-            currentCommittees.push(newCommittee);
-            renderCommittees();
-            
-            const lastIndex = currentCommittees.length - 1;
-            const newElement = committeeList.querySelector(`[data-index="${lastIndex}"].committee-name`);
-            setTimeout(() => enableEditing(newElement, lastIndex), 100);
-        });
-        
-        scanButton.addEventListener('click', () => {
-            const now = new Date();
-            const dateString = now.toLocaleDateString('en-GB', { 
-                day: 'numeric', 
-                month: 'long', 
-                year: 'numeric' 
-            });
-            lastUpdatedElement.textContent = dateString;
-            
-            scanButton.textContent = 'Scanning...';
-            scanButton.disabled = true;
-            
-            setTimeout(() => {
-                scanButton.textContent = 'Scan Updates';
-                scanButton.disabled = false;
-            }, 2000);
-        });
-        
-        document.querySelectorAll('.dataset-link').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                console.log('Dataset link clicked:', e.target.textContent);
-            });
-        });
-        
-        // Initialize
-        renderCommittees();
-        
-        // Expose functions for backend integration
-        window.wpsgApp = {
-            updateCommittees: (newCommittees, filter = 'CEN') => {
-                if (filter === 'CEN') {
-                    cenCommittees.length = 0;
-                    cenCommittees.push(...newCommittees);
-                } else {
-                    isoCommittees.length = 0;
-                    isoCommittees.push(...newCommittees);
-                }
-                if (currentFilter === filter) {
-                    currentCommittees = filter === 'CEN' ? cenCommittees : isoCommittees;
-                    renderCommittees();
-                }
-            },
-            
-            getCommittees: (filter = null) => {
-                if (filter === 'CEN') return [...cenCommittees];
-                if (filter === 'ISO') return [...isoCommittees];
-                return [...currentCommittees];
-            },
-            
-            getCurrentFilter: () => currentFilter,
-            
-            updateLastScanned: (dateString) => {
-                lastUpdatedElement.textContent = dateString;
-            },
-            
-            triggerScan: () => {
-                scanButton.click();
-            }
-        };
-    </script>
+    <!-- EXTERNAL JAVASCRIPT FILE LINK - This is how you link external JS -->
+    <script src="js/main.js"></script>
 </body>
 </html>

@@ -8,9 +8,10 @@ python eel_app.py
 
 
 # Make changes, then:
+git status
 git add .
-git commit -m "Add new feature: XYZ"
-git push
+git commit -m "[...]"
+git push origin main
 
 # Kill the script
 

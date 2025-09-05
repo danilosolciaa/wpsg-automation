@@ -1,0 +1,70 @@
+{
+  "metadata": {
+    "last_updated": "2025-09-04T15:02:12.287140",
+    "source": "NVC WPSG Automation Tool",
+    "version": "1.0",
+    "total_records": 4
+  },
+  "cen_standards": {
+    "under_development": [
+      {
+        "id": "cen_en_18120_1",
+        "reference": "EN 18120-1",
+        "title": "Packaging - Design for recycling for plastic packaging products - Part 1: Definitions and principles for design-for-recycling of plastic packaging",
+        "committee": "CEN/TC 261",
+        "wi_number": "WI=00261514",
+        "status": "under_development",
+        "organization": "CEN",
+        "category": "packaging",
+        "relevance_score": 10.0,
+        "last_updated": "2025-09-04T15:02:12.287121"
+      }
+    ],
+    "recently_published": [
+      {
+        "id": "cen_en_1034_1_2021",
+        "reference": "EN 1034-1:2021",
+        "title": "Safety of machinery - Safety requirements for the design and construction of paper making and finishing machines - Part 1: Common requirements",
+        "committee": "CEN/TC 198",
+        "wi_number": "WI=00198092",
+        "status": "published",
+        "organization": "CEN",
+        "category": "packaging_machinery",
+        "relevance_score": 8.5,
+        "last_updated": "2025-09-04T15:02:12.287084"
+      }
+    ],
+    "withdrawn_deleted": []
+  },
+  "iso_standards": {
+    "under_development": [
+      {
+        "id": "iso_iso_25968",
+        "reference": "ISO 25968",
+        "title": "Accessible Packaging Design - Usability",
+        "committee": "ISO/TC 122",
+        "wi_number": "",
+        "status": "under_development",
+        "organization": "ISO",
+        "category": "packaging",
+        "relevance_score": 9.5,
+        "last_updated": "2025-09-04T15:02:12.287124"
+      }
+    ],
+    "recently_published": [
+      {
+        "id": "iso_iso_11040_8",
+        "reference": "ISO 11040-8:2016",
+        "title": "Prefilled syringes - Part 8: Requirements and test methods for finished prefilled syringes",
+        "committee": "ISO/TC 76",
+        "wi_number": "",
+        "status": "published",
+        "organization": "ISO",
+        "category": "medical_packaging",
+        "relevance_score": 6.5,
+        "last_updated": "2025-09-04T15:02:12.287127"
+      }
+    ],
+    "withdrawn_deleted": []
+  }
+}
