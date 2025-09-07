@@ -5,7 +5,7 @@
       "CEN/CLC/JTC 10",
       "CEN/TC 102",
       "CEN/TC 132",
-      "dqjj",
+      "CEN/TC 145",
       "CEN/TC 146",
       "CEN/TC 172/WG2",
       "CEN/TC 172/WG3",
@@ -86,7 +86,7 @@
     ]
   },
   "settings": {
-    "last_update": "04 September 2025",
+    "last_update": "07 September 2025",
     "scan_interval": 30,
     "auto_backup": true,
     "notification_email": "automate.wpsg@gmail.com",

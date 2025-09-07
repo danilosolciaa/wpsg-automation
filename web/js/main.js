@@ -1,5 +1,4 @@
 // WPSG Main Application JavaScript - External File
-// Save this as: web/js/main.js
 
 // Global state
 let currentCommittees = [];

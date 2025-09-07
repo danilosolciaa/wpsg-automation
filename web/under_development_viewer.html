@@ -94,7 +94,7 @@
         /* Logo */
         .nvc-logo {
             position: absolute;
-            width: 120px;
+            width: 150px;
             height: auto;
             top: 16px;
             right: 14px;
@@ -217,36 +217,8 @@
             background-color: #f5f5f5;
         }
 
-        /* Status badges */
-        .status-badge {
-            display: inline-block;
-            padding: 2px 6px;
-            border-radius: 12px;
-            font-size: 10px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .status-published {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .status-development {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .status-withdrawn {
-            background: #f8d7da;
-            color: var(--brand-blue-dark);
-        }
-
-        /* Relevance score */
-        .relevance-score {
-            font-weight: 700;
-            color: var(--brand-blue);
-        }
+     
+        
 
         /* Empty state */
         .empty-state {
@@ -324,8 +296,8 @@
     <div class="box">
         <!-- Header -->
         <div class="header">
-            <button class="back-button" onclick="goBack()">← Back to Main</button>
-            <div class="page-title">Standards Database</div>
+            <button class="back-button" onclick="goBack()">← Back</button>
+            <div class="page-title">Standards Under Development - Database</div>
             <div class="page-subtitle" id="dbSubtitle">Loading database information...</div>
         </div>
 
@@ -342,16 +314,6 @@
                         <option value="all">All</option>
                         <option value="cen">CEN</option>
                         <option value="iso">ISO</option>
-                    </select>
-                </div>
-
-                <div class="filter-group">
-                    <span class="filter-label">Status:</span>
-                    <select class="filter-select" id="statusFilter">
-                        <option value="all">All</option>
-                        <option value="under_development">Under Development</option>
-                        <option value="recently_published">Recently Published</option>
-                        <option value="withdrawn_deleted">Withdrawn/Deleted</option>
                     </select>
                 </div>
 
@@ -409,7 +371,6 @@
 
         function setupEventListeners() {
             document.getElementById('orgFilter').addEventListener('change', applyFilters);
-            document.getElementById('statusFilter').addEventListener('change', applyFilters);
             document.getElementById('searchInput').addEventListener('input', applyFilters);
         }
 
@@ -471,49 +432,64 @@
             if (!currentData) return;
 
             const orgFilter = document.getElementById('orgFilter').value;
-            const statusFilter = document.getElementById('statusFilter').value;
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
 
             filteredData = [];
 
             // Process CEN standards
             if (orgFilter === 'all' || orgFilter === 'cen') {
-                processStandards(currentData.cen_standards, 'CEN', statusFilter, searchTerm);
+                processStandards(currentData.cen_standards, 'CEN', searchTerm);
             }
 
             // Process ISO standards
             if (orgFilter === 'all' || orgFilter === 'iso') {
-                processStandards(currentData.iso_standards, 'ISO', statusFilter, searchTerm);
+                processStandards(currentData.iso_standards, 'ISO', searchTerm);
             }
 
             renderTable();
         }
 
-        function processStandards(standards, orgType, statusFilter, searchTerm) {
-            if (!standards) return;
+ function processStandards(standards, orgType, searchTerm) {
+    if (!standards) return;
 
-            Object.keys(standards).forEach(status => {
-                if (statusFilter !== 'all' && statusFilter !== status) return;
+    // If standards is now a flat array instead of organized by status
+    if (Array.isArray(standards)) {
+        standards.forEach(standard => {
+            if (searchTerm && 
+                !standard.reference?.toLowerCase().includes(searchTerm) &&
+                !standard.title?.toLowerCase().includes(searchTerm) &&
+                !standard.committee?.toLowerCase().includes(searchTerm)) {
+                return;
+            }
 
-                const standardsList = standards[status];
-                if (!Array.isArray(standardsList)) return;
+            filteredData.push({
+                ...standard,
+                organization: orgType
+            });
+        });
+    } else {
+        // If standards is still an object but you want to process all statuses
+        Object.keys(standards).forEach(status => {
+            const standardsList = standards[status];
+            if (!Array.isArray(standardsList)) return;
 
-                standardsList.forEach(standard => {
-                    if (searchTerm && 
-                        !standard.reference?.toLowerCase().includes(searchTerm) &&
-                        !standard.title?.toLowerCase().includes(searchTerm) &&
-                        !standard.committee?.toLowerCase().includes(searchTerm)) {
-                        return;
-                    }
+            standardsList.forEach(standard => {
+                if (searchTerm && 
+                    !standard.reference?.toLowerCase().includes(searchTerm) &&
+                    !standard.title?.toLowerCase().includes(searchTerm) &&
+                    !standard.committee?.toLowerCase().includes(searchTerm)) {
+                    return;
+                }
 
-                    filteredData.push({
-                        ...standard,
-                        organization: orgType,
-                        status: status
-                    });
+                filteredData.push({
+                    ...standard,
+                    organization: orgType
+                    // Removed status from the output since you're scrapping it
                 });
             });
-        }
+        });
+    }
+}
 
         function renderTable() {
             const tableWrapper = document.getElementById('tableWrapper');
@@ -538,10 +514,8 @@
                             <th>Reference</th>
                             <th>Title</th>
                             <th>Committee</th>
-                            <th>Status</th>
                             <th>WI Number</th>
                             <th>Category</th>
-                            <th>Relevance</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -554,8 +528,7 @@
         }
 
         function renderTableRow(standard) {
-            const statusClass = `status-${standard.status.replace('_', '-')}`;
-            const relevanceScore = standard.relevance_score || '-';
+           
             
             return `
                 <tr>
@@ -563,17 +536,13 @@
                     <td><strong>${standard.reference || '-'}</strong></td>
                     <td>${standard.title || '-'}</td>
                     <td>${standard.committee || '-'}</td>
-                    <td><span class="status-badge ${statusClass}">${formatStatus(standard.status)}</span></td>
                     <td>${standard.wi_number || '-'}</td>
                     <td>${standard.category || '-'}</td>
-                    <td><span class="relevance-score">${relevanceScore}</span></td>
                 </tr>
             `;
         }
 
-        function formatStatus(status) {
-            return status.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-        }
+      
 
         function showError(message) {
             document.getElementById('tableWrapper').innerHTML = `
@@ -606,7 +575,7 @@
             }
 
             // Convert to CSV
-            const headers = ['Organization', 'Reference', 'Title', 'Committee', 'Status', 'WI Number', 'Category', 'Relevance Score'];
+            const headers = ['Organization', 'Reference', 'Title', 'Committee', 'WI Number', 'Category'];
             const csvContent = [
                 headers.join(','),
                 ...filteredData.map(row => [
@@ -614,10 +583,9 @@
                     `"${row.reference || ''}"`,
                     `"${row.title || ''}"`,
                     row.committee || '',
-                    row.status || '',
                     row.wi_number || '',
-                    row.category || '',
-                    row.relevance_score || ''
+                    row.category || ''
+                    
                 ].join(','))
             ].join('\n');
 

@@ -53,7 +53,7 @@ class ConfigManager:
                 ]
             },
             "settings": {
-                "last_update": "23 August 2025",
+                "last_update": "15 July 2025",
                 "scan_interval": 30,
                 "auto_backup": True,
                 "notification_email": "automate.wpsg@gmail.com",
@@ -85,10 +85,8 @@ class ConfigManager:
                 'title': 'Safety of machinery - Safety requirements for the design and construction of paper making and finishing machines - Part 1: Common requirements',
                 'committee': 'CEN/TC 198',
                 'wi_number': 'WI=00198092',
-                'status': 'published',
                 'organization': 'CEN',
                 'category': 'packaging_machinery',
-                'relevance_score': 8.5,
                 'last_updated': datetime.now().isoformat()
             },
             {
@@ -97,10 +95,8 @@ class ConfigManager:
                 'title': 'Packaging - Design for recycling for plastic packaging products - Part 1: Definitions and principles for design-for-recycling of plastic packaging',
                 'committee': 'CEN/TC 261',
                 'wi_number': 'WI=00261514',
-                'status': 'under_development',
                 'organization': 'CEN',
                 'category': 'packaging',
-                'relevance_score': 10.0,
                 'last_updated': datetime.now().isoformat()
             },
             {
@@ -109,10 +105,8 @@ class ConfigManager:
                 'title': 'Accessible Packaging Design - Usability',
                 'committee': 'ISO/TC 122',
                 'wi_number': '',
-                'status': 'under_development',
                 'organization': 'ISO',
                 'category': 'packaging',
-                'relevance_score': 9.5,
                 'last_updated': datetime.now().isoformat()
             },
             {
@@ -121,10 +115,8 @@ class ConfigManager:
                 'title': 'Prefilled syringes - Part 8: Requirements and test methods for finished prefilled syringes',
                 'committee': 'ISO/TC 76',
                 'wi_number': '',
-                'status': 'published',
                 'organization': 'ISO',
                 'category': 'medical_packaging',
-                'relevance_score': 6.5,
                 'last_updated': datetime.now().isoformat()
             }
         ]
