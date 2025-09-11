@@ -17,3 +17,7 @@ python-dotenv>=1.0.0
 schedule>=1.2.0
 tqdm>=4.66.0
 eel>=1.2.8
+xlsxwriter>=3.0.0
+
+# (if needed)
+flask>=2.0.0

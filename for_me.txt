@@ -18,21 +18,3 @@ git push origin main
 Ctlr + C
 
 
-
-Changes:
-
-Be able to expand window on the bottom when dealing with databases (and only when dealing with whole page databeses, sticky arrow and texts on the bottom to notify it can be expanded vertically, returns to normal dimension once back to index)
-
-Add NL/EN functionality, with dutch being primary language but not for standards (universal)
-
-Add a recently published dataset and ISO deleted that perfectly mimic the under development database(identical to first database)
-
-Fix missig WI codes - which are somehow not showing (databse)
-
-Fix Database Search (Currently parsing using EN 12900 number, needs to filter by (or rather access to)  committie, title, WI, category) (database)
-
-Add button under logo to [EDIT DATABASE] new pop up window perhaps? (database)
-
-Function and button for removing committie (index)
-
-button for AI-enabled assestment of already saved or new committies - simple input for committie name and link, then AI outputq (index)

@@ -86,11 +86,12 @@
     ]
   },
   "settings": {
-    "last_update": "07 September 2025",
+    "last_update": "11 September 2025",
     "scan_interval": 30,
     "auto_backup": true,
     "notification_email": "automate.wpsg@gmail.com",
-    "debug_mode": false
+    "debug_mode": false,
+    "language": "en"
   },
   "api_config": {
     "cen": {
