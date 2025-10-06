@@ -306,30 +306,22 @@ def test_connection():
 
 
 def main():
-    """Main application entry point"""
     try:
         print("Starting WPSG Automation Tool...")
-        print(f"Config directory: {config_manager.config_dir}")
-
-        # Load initial configuration
         config = config_manager.load_config()
         app_state['language'] = config['settings'].get('language', 'en')
-
-        print(f"App initialized with language: {app_state['language']}")
-        print(f"CEN Committees: {len(config['committees']['CEN'])}")
-        print(f"ISO Committees: {len(config['committees']['ISO'])}")
-
-        # FIXED: Different window sizes for different pages
-        # Default to main app size, database viewer will be larger
+        
+        # Allow for resizable window
         eel.start('index.html', 
-                 size=(900, 590),  # Made slightly smaller for main
+                 size=(930, 650),           # Initial size
                  position=(100, 100),
                  disable_cache=True,
-                 port=8080)
-
+                 port=8080,
+                 mode='chrome',             # Better for resizing
+                 cmdline_args=['--disable-web-security'])  # If needed
+        
     except Exception as e:
         print(f"Error starting application: {e}")
-        input("Press Enter to exit...")
 
 
 if __name__ == '__main__':

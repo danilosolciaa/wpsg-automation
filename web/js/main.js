@@ -1,3 +1,5 @@
+
+
 // WPSG Main Application JavaScript - UPDATED VERSION
 
 // Global state
@@ -62,7 +64,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 function resetWindowSize() {
     try {
         // Try to resize window back to 850x520
-        window.resizeTo(900, 590);
+        window.resizeTo(930, 650);
     } catch (error) {
         console.log('Cannot programmatically resize window:', error);
     }
@@ -167,8 +169,6 @@ function updateLanguageUI() {
     
     // Update tooltips and titles
     document.getElementById('addCommittee').title = translations.add_committee || "Add Committee";
-    document.getElementById('aiButtonText').textContent = 
-        currentLanguage === 'nl' ? " AI Beoordeling" : " AI Assessment";
 }
 
 // Switch language
@@ -463,91 +463,7 @@ async function addNewCommittee() {
     }
 }
 
-// AI Assessment functionality
-function openAIAssessmentModal() {
-    const modal = document.getElementById('aiModal');
-    const nameInput = document.getElementById('committeeNameInput');
-    const urlInput = document.getElementById('committeeUrlInput');
-    const resultDiv = document.getElementById('aiResultDiv');
-    
-    // Clear previous data
-    nameInput.value = '';
-    urlInput.value = '';
-    resultDiv.style.display = 'none';
-    
-    // Update modal text based on language
-    document.getElementById('aiModalTitle').textContent = 
-        currentLanguage === 'nl' ? 'AI Commissie Beoordeling' : 'AI Committee Assessment';
-    document.getElementById('committeeNameLabel').textContent = 
-        currentLanguage === 'nl' ? 'Commissie Naam:' : 'Committee Name:';
-    document.getElementById('committeeUrlLabel').textContent = 
-        currentLanguage === 'nl' ? 'Commissie URL (optioneel):' : 'Committee URL (optional):';
-    document.getElementById('aiCancelBtn').textContent = 
-        currentLanguage === 'nl' ? 'Annuleren' : 'Cancel';
-    document.getElementById('aiAssessBtn').textContent = 
-        currentLanguage === 'nl' ? 'Beoordelen' : 'Assess';
-    
-    modal.style.display = 'block';
-}
-
-async function performAIAssessment() {
-    const nameInput = document.getElementById('committeeNameInput');
-    const urlInput = document.getElementById('committeeUrlInput');
-    const resultDiv = document.getElementById('aiResultDiv');
-    const resultContent = document.getElementById('aiResultContent');
-    const assessBtn = document.getElementById('aiAssessBtn');
-    
-    const committeeName = nameInput.value.trim();
-    const committeeUrl = urlInput.value.trim();
-    
-    if (!committeeName) {
-        alert(currentLanguage === 'nl' ? 'Voer een commissie naam in' : 'Please enter a committee name');
-        return;
-    }
-    
-    try {
-        assessBtn.textContent = currentLanguage === 'nl' ? 'Bezig...' : 'Assessing...';
-        assessBtn.disabled = true;
-        
-        const assessment = await eel.assess_committee_ai(committeeName, committeeUrl)();
-        
-        if (assessment.success) {
-            const relevanceColor = assessment.relevance_score > 70 ? '#28a745' : 
-                                   assessment.relevance_score > 30 ? '#ffc107' : '#dc3545';
-            
-            resultContent.innerHTML = `
-                <div style="margin-bottom: 10px;">
-                    <strong>${currentLanguage === 'nl' ? 'Relevantie Score' : 'Relevance Score'}:</strong> 
-                    <span style="color: ${relevanceColor}; font-weight: bold;">${assessment.relevance_score.toFixed(1)}%</span>
-                </div>
-                <div style="margin-bottom: 10px;">
-                    <strong>${currentLanguage === 'nl' ? 'Beoordeling' : 'Assessment'}:</strong> ${assessment.assessment}
-                </div>
-                <div style="margin-bottom: 10px;">
-                    <strong>${currentLanguage === 'nl' ? 'Aanbeveling' : 'Recommendation'}:</strong> ${assessment.recommendation}
-                </div>
-                <div style="margin-bottom: 10px;">
-                    <strong>${currentLanguage === 'nl' ? 'Gevonden Sleutelwoorden' : 'Found Keywords'}:</strong> 
-                    ${assessment.keywords_found.length > 0 ? assessment.keywords_found.join(', ') : currentLanguage === 'nl' ? 'Geen' : 'None'}
-                </div>
-                <div>
-                    <strong>${currentLanguage === 'nl' ? 'Vertrouwen' : 'Confidence'}:</strong> ${assessment.confidence}
-                </div>
-            `;
-            
-            resultDiv.style.display = 'block';
-        } else {
-            alert(`AI Assessment failed: ${assessment.message}`);
-        }
-        
-    } catch (error) {
-        console.error('Error in AI assessment:', error);
-        alert('AI Assessment error: ' + error.message);
-    } finally {
-        assessBtn.textContent = currentLanguage === 'nl' ? 'Beoordelen' : 'Assess';
-        assessBtn.disabled = false;
-    }
-}
+// AI Assessment functionality removed
 
 // Perform scan
 async function performScan() {
@@ -724,24 +640,14 @@ function showMessage(message, type = 'info') {
     }
 }
 
-// Function to resize window for different pages
+// Function to resize window for different pages - Standardized to 900x590
 function resizeWindowForPage(targetPage) {
-    if (targetPage === 'database') {
-        try {
-            // Resize to database dimensions
-            window.resizeTo(900, 590);
-            console.log('Window resized for database viewer: 980x700');
-        } catch (error) {
-            console.log('Cannot resize window programmatically:', error);
-        }
-    } else {
-        try {
-            // Resize to main dimensions 
-            window.resizeTo(900, 590);
-            console.log('Window resized for main app: 900x590');
-        } catch (error) {
-            console.log('Cannot resize window programmatically:', error);
-        }
+    try {
+        // Consistent 900x590 for both main and database views
+        window.resizeTo(930, 650);
+        console.log('Window resized to standard dimensions: 900x590');
+    } catch (error) {
+        console.log('Cannot resize window programmatically:', error);
     }
 }
 
@@ -791,8 +697,6 @@ window.wpsgApp = {
     switchLanguage,
     addNewCommittee,
     deleteCommittee,
-    openAIAssessmentModal,
-    performAIAssessment,
     
     // Debug functions
     debug: {

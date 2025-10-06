@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,26 +19,34 @@
         html, body {
             margin: 0;
             padding: 0;
-            width: 900px; /* FIXED: Made smaller for main */
-            height: 590px; /* FIXED: Made smaller for main */
+            width: 100vw;
+            height: 100vh;
+            min-width: 900px;
+            min-height: 590px;
+            max-width: 100vw;
+            max-height: 100vh;
             overflow: hidden;
             font-family: 'Source Sans Pro', sans-serif;
             background-color: #ffffff;
+            box-sizing: border-box;
         }
         
         .box {
-            width: 875px; /* FIXED: Made smaller for main */
-            height: 301px; /* FIXED: Made smaller for main */
+            width: 100%;
+            height: 100%;
+            min-width: 900px;
+            min-height: 590px;
             background-color: #ffffff;
             display: flex;
             position: relative;
+            box-sizing: border-box;
         }
 
         /* Language Toggle */
         .language-toggle {
             position: absolute;
             top: 8px;
-            left: 218px;
+            left: 216px; /* 210px sidebar + 1px border + 5px margin */
             z-index: 1000;
         }
 
@@ -68,18 +78,21 @@
         /* Sidebar - Fixed width */
         .sidebar {
             width: 210px;
-            height: 530px; /* FIXED: Made smaller for main */
+            height: 100%;
+            min-height: 590px;
             background-color: #ffffff;
             border-right: 1px solid #000000;
             display: flex;
             flex-direction: column;
             padding: 20px 10px;
+            box-sizing: border-box;
         }
         
         /* Main content - Centered in remaining space */
         .main-content {
             flex: 1;
-            height: 530px; /* FIXED: Made smaller for main */
+            height: 100%;
+            min-height: 590px;
             position: relative;
             display: flex;
             align-items: center;
@@ -224,8 +237,8 @@
             flex: 1;
             width: 100%;
             overflow-y: auto;
-            margin-bottom: 20px;
-            max-height: 300px;
+            margin-bottom: 10px; /* Reduced from 20px since no AI button */
+            max-height: calc(100% - 120px); /* Dynamic height calculation */
         }
         
         .committee-item {
@@ -313,31 +326,6 @@
             background-color: #f0f0f0;
         }
 
-        /* AI Assessment Button */
-        .ai-button {
-            width: 100%;
-            height: 32px;
-            background:#1F4E8C;
-            border: none;
-            border-radius: 6px;
-            color: white;
-            font-family: "Source Sans Pro", Helvetica;
-            font-weight: 600;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-bottom: 10px;
-        }
-
-        .ai-button:hover {
-            background: #173B6B;
-            transform: translateY(-1px);
-        }
-
-        .ai-button:active {
-            transform: translateY(0);
-        }
-        
         /* Dataset Section */
         .datasets-section {
             position: absolute;
@@ -438,102 +426,9 @@
             text-align: center;
         }
 
-        /* AI Assessment Modal */
-        .ai-modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.4);
-        }
-
-        .ai-modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: none;
-            border-radius: 8px;
-            width: 400px;
-            max-width: 90%;
-            font-family: "Source Sans Pro", Helvetica;
-        }
-
-        .ai-modal h3 {
-            margin: 0 0 15px 0;
-            color: #1F4E8C;
-            font-size: 18px;
-            font-weight: 700;
-        }
-
-        .ai-modal input {
-            width: 100%;
-            padding: 8px;
-            margin: 5px 0 15px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        .ai-modal label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .ai-modal-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-            margin-top: 20px;
-        }
-
-        .ai-modal button {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .ai-modal .btn-primary {
-            background-color: #1F4E8C;
-            color: white;
-        }
-
-        .ai-modal .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-        }
-
-        .ai-result {
-            margin-top: 15px;
-            padding: 15px;
-            border-radius: 6px;
-            background-color: #f8f9fa;
-            border-left: 4px solid #1F4E8C;
-        }
-
-        .ai-result h4 {
-            margin: 0 0 10px 0;
-            color: #1F4E8C;
-        }
-
-        .ai-btn::before,
-        .ai-btn::after { content: '' !important; display: none !important; background: none !important; }
-
         /* Hide common icon nodes if present */
-        .ai-btn i,
-        .ai-btn svg,
-        .ai-btn .fa,
-        .ai-btn .icon { display: none !important; }
-
         /* Also clear background graphics */
-        .ai-btn { background: none !important; background-image: none !important; }
-    </style>
+        </style>
 </head>
 <body>
     <div class="box">
@@ -557,9 +452,7 @@
             </div>
             
             <button class="add-button" id="addCommittee" title="Add Committee">+</button>
-            <button class="ai-button" id="aiAssessment">
-                <span id="aiButtonText"> AI Assessment</span>
-            </button>
+
         </div>
         
         <!-- Main Content -->
@@ -601,19 +494,7 @@
         </div>
     </div>
 
-    <!-- AI Assessment Modal -->
-    <div id="aiModal" class="ai-modal">
-        <div class="ai-modal-content">
-            <h3 id="aiModalTitle">AI Committee Assessment</h3>
-            <label for="committeeNameInput" id="committeeNameLabel">Committee Name:</label>
-            <input type="text" id="committeeNameInput" placeholder="E.g. CEN/TC 261 Packaging">
-            
-            <label for="committeeUrlInput" id="committeeUrlLabel">Committee URL (optional):</label>
-            <input type="text" id="committeeUrlInput" placeholder="https://...">
-            
-            <div id="aiResultDiv" class="ai-result" style="display: none;">
-                <h4>Assessment Result:</h4>
-                <div id="aiResultContent"></div>
+    
             </div>
             
             <div class="ai-modal-buttons">
@@ -626,3 +507,5 @@
     <script src="js/main.js"></script>
 </body>
 </html>
+
+
